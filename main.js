@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import gsap from "gsap";
 
 let width = window.innerWidth;
 let height = window.innerHeight;
@@ -74,3 +75,13 @@ const loop = () => {
 };
 
 loop();
+
+function coordScale(value) {
+  return { x: value, y: value, z: value };
+}
+
+// Timeline animation
+const tl = gsap.timeline({ defaults: { duration: 1 } });
+tl.fromTo(mesh.scale, coordScale(0), coordScale(1));
+tl.fromTo("nav", { y: "-100%" }, { y: 0 });
+tl.fromTo("h1.title", { opacity: 0 }, { opacity: 1 });
