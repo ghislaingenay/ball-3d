@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
-const width = 800;
-const height = 600;
+const width = window.innerWidth;
+const height = window.innerHeight;
 const aspectRatio = width / height;
 
 // Scene
@@ -12,7 +12,10 @@ const geometry = new THREE.SphereGeometry(3, 64, 64);
 // Radius: size of the sphere
 // Width segments: number of horizontal segments
 // Height segments: number of vertical segments
-const material = new THREE.MeshStandardMaterial({ color: "#00ff83" });
+const material = new THREE.MeshStandardMaterial({
+  color: "#00ff83",
+  roughness: 0.5,
+});
 const mesh = new THREE.Mesh(geometry, material); // combine material and geometry
 scene.add(mesh);
 
