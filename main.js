@@ -24,6 +24,7 @@ scene.add(mesh);
 // Lights
 const pointLight = new THREE.PointLight(0xffffff, 100, 100, 1.5); // decay: The amount the light dims along the distance of the light.
 pointLight.position.set(0, 10, 10);
+pointLight.castShadow = true;
 scene.add(pointLight);
 
 // Camera
@@ -85,3 +86,26 @@ const tl = gsap.timeline({ defaults: { duration: 1 } });
 tl.fromTo(mesh.scale, coordScale(0), coordScale(1));
 tl.fromTo("nav", { y: "-100%" }, { y: 0 });
 tl.fromTo("h1.title", { opacity: 0 }, { opacity: 1 });
+
+// Mouse animation color
+let mouseDown = false;
+let rgb = [];
+window.addEventListener("mousedown", () => {
+  mouseDown = true;
+});
+
+window.addEventListener("mouseup", () => {
+  mouseDown = false;
+});
+
+window.addEventListener("mousemove", (e) => {
+  if (mouseDown) {
+    rgb = [
+      Math.round(e.pageX / width) * 255,
+      Math.round(e.pageY / height),
+      150,
+    ];
+    let { r, g, b } = new THREE.Color(`rgb(${rgb.join(",")})`);
+    gsap.to(mesh.material.color, { r, g, b });
+  }
+});
