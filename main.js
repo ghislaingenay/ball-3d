@@ -1,8 +1,8 @@
 import * as THREE from "three";
 
-const width = window.innerWidth;
-const height = window.innerHeight;
-const aspectRatio = width / height;
+let width = window.innerWidth;
+let height = window.innerHeight;
+let aspectRatio = width / height;
 
 // Scene
 const scene = new THREE.Scene();
@@ -29,7 +29,7 @@ const camera = new THREE.PerspectiveCamera(
   50, // Field of view
   aspectRatio, // Aspect ratio
   0.1, // Near clipping plane
-  150 // Far clipping plane => like MineCraft
+  150 // Far clipping plane => like Minecraft
 );
 camera.position.z = 20;
 scene.add(camera);
@@ -41,3 +41,24 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(width, height);
 renderer.render(scene, camera);
+
+// Resize
+window.addEventListener("resize", () => {
+  // Update sizes
+  width = window.innerWidth;
+  height = window.innerHeight;
+  aspectRatio = width / height;
+
+  // Update camera
+  camera.aspect = aspectRatio;
+  camera.updateProjectionMatrix();
+  // Update renderer
+  renderer.setSize(width, height);
+});
+
+const loop = () => {
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(loop);
+};
+
+loop();
